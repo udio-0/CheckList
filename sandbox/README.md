@@ -1,42 +1,74 @@
-# Slim Framework 4 Skeleton Application
+Checklist
 
-[![Coverage Status](https://coveralls.io/repos/github/slimphp/Slim-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/slimphp/Slim-Skeleton?branch=master)
+Exads Checklist Project built with Slimv4 framework
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
+https://sandbox.exads.rocks/api/docs
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
 
-## Install the Application
+ENDPOINTS:
+DOCS:
 
-Run this command from the directory in which you want to install your new Slim Framework application. You will require PHP 7.4 or newer.
+    View API Documents: /api/docs
 
-```bash
-composer create-project slim/slim-skeleton [my-app-name]
-```
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+TICKETS:
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writable.
+    List Tickets: GET /api/tickets
 
-To run the application in development, you can run these commands 
+    Get Ticket: GET /api/tickets/{id}
 
-```bash
-cd [my-app-name]
-composer start
-```
+    Create Ticket: POST /api/tickets
 
-Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
-```bash
-cd [my-app-name]
-docker-compose up -d
-```
-After that, open `http://localhost:8080` in your browser.
+    Update Ticket: PUT /api/tickets/{id}
 
-Run this command in the application directory to run the test suite
+    Delete Ticket: DELETE /api/tickets/{id}
 
-```bash
-composer test
-```
+//TODO:
+	TABS:
 
-That's it! Now go build something cool.
+	    List Tabs: GET /api/tabs
+
+	    Get Tab: GET /api/tabs/{id}
+
+	    Create Tab: POST /api/tabs
+
+	    Update Tab: PUT /api/tabs/{id}
+
+	    Update Tab Ticket: PATCH /api/tabs/ticket/{id}
+
+	    Delete Tab: DELETE /api/tabs/{id}
+
+	SECTIONS:
+
+	    List Sections: GET /api/sections
+
+	    Get Section: GET /api/sections/{id}
+
+	    Create Section: POST /api/sections
+
+	    Update Section: PUT /api/sections/{id}
+
+	    Update Section Tab: PATCH /api/sections/tab/{id}
+
+	    Delete Section: DELETE /api/sections/{id}
+
+	ITEMS:
+
+	    List Items: GET /api/items
+
+	    Get Item: GET /api/items/{id}
+
+	    Create Item: POST /api/items
+
+	    Update Item: PUT /api/items/{id}
+
+	    Update Item Section: PATCH /api/items/section/{id}
+
+	    Delete Item: DELETE /api/items/{id}
+
+	ITEM STATUSES:
+
+	    List Item Statuses: GET /api/item-statuses
+
+	    Get Item Status: GET /api/items-statuses/{id}
+
