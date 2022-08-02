@@ -23,7 +23,7 @@ TICKETS:
 
     Delete Ticket: DELETE /api/tickets/{id}
 
-//TODO:
+//TODO
 	TABS:
 
 	    List Tabs: GET /api/tabs
@@ -66,9 +66,4 @@ TICKETS:
 
 	    Delete Item: DELETE /api/items/{id}
 
-	ITEM STATUSES:
-
-	    List Item Statuses: GET /api/item-statuses
-
-	    Get Item Status: GET /api/items-statuses/{id}
-
+	
