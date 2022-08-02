@@ -13,7 +13,7 @@ class ViewTabAction extends TabAction
     {
         $tabId = (int) $this->resolveArg('id');
 
-        $tab = $this->tabRepository->findTabOfId($tabId);
+        $tab = $this->tabRepository->findTabById($tabId);
 
         $id = $tab->getId();
 

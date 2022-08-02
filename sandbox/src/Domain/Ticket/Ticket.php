@@ -4,27 +4,60 @@ declare(strict_types=1);
 
 namespace App\Domain\Ticket;
 
-use App\Domain\Ticket\TicketExceptions\InvalidStatusProvided;
-use App\Domain\Ticket\TicketExceptions\TitleLengthExceeded;
-use App\Domain\Ticket\TicketExceptions\TicketTitleMissing;
 use JsonSerializable;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema ()
+ */
 
 class Ticket implements JsonSerializable
 {
+    /**
+     * Ticket id,
+     * @var int
+     * @OA\Property ()
+     */
     private $id;
 
+    /**
+     * @var string
+     * @OA\Property
+     */
     private $title;
-    private const MAX_TITLE_LENGTH = 100;
 
+    /**
+     * @var string
+     * @OA\Property
+     */
     private $description;
 
+    /**
+     * @var string|null
+     * @OA\Property
+     */
     private $status;
 
+    /**
+     * @var string|null
+     * @OA\Property
+     */
     private $date;
 
+    /**
+     * @var string|null
+     * @OA\Property
+     */
     private $last_update;
 
-
+    /**
+     * @param int|null $id
+     * @param string $title
+     * @param string $description
+     * @param string|null $status
+     * @param string|null $date
+     * @param string|null $last_update
+     */
     public function __construct(?int $id, string $title, string $description, ?string $status, ?string $date, ?string $last_update)
     {
         $this->id = $id;
@@ -36,126 +69,78 @@ class Ticket implements JsonSerializable
 
     }
 
-    public static function fromArray(array $params): Ticket
-    {
-        return new Ticket(
-            $params['id'],
-            $params['title'],
-            $params['description'],
-            $params['status'],
-            $params['date'],
-            $params['last_update']);
-    }
-
     /**
-     * @throws TicketTitleMissing
-     * @throws TitleLengthExceeded
+     * @return int|null
      */
-    public static function createTicketFromArray(array $params) : Ticket
-    {
-        if (!array_key_exists('title',$params)){
-            throw new TicketTitleMissing();
-        }
-        if ($params['title'] == ""){
-            throw new TicketTitleMissing();
-        }
-        if (strlen($params['title']) > self::MAX_TITLE_LENGTH){
-            throw new TitleLengthExceeded();
-        }
-
-        return new Ticket(null,
-            $params['title'],
-            $params['description'] ?? "",
-            null,
-            null,
-            null);
-    }
-    
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    /**
+     * @return string
+     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
+    /**
+     * @param int|null $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
 
 
     /**
-     * @param string|null $description
+     * @param string $description
+     * @return void
      */
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-    
-    /**
-     * @throws TitleLengthExceeded
-     * @throws InvalidStatusProvided
-     */
-    public function updateInMemoryTicket(array $newData)
-    {
-        $this->setTitle(($newData['title'] ?? null)  ? $newData['title'] : $this->title);
-        $this->setDescription(($newData['description']  ?? null) ? $newData['description'] : $this->description);
-        $this->setStatus(($newData['status']  ?? null) ? $newData['status'] : $this->status );
     }
 
     /**
      * @param string $status
-     * @throws InvalidStatusProvided
+     * @return void
      */
     public function setStatus(string $status): void
     {
-        $this->status = self::validateStatus($status);
-
-    }
-    
-
-    /**
-     * @throws InvalidStatusProvided
-     */
-    private static function validateStatus(string $status): string
-    {
-
-        $validStatus = TicketStatus::allPossibleStatuses();
-
-        if (!in_array(strtolower($status), $validStatus) && !null){
-            throw new InvalidStatusProvided(
-                "The status provided is not valid. Valid status: " 
-                . implode(", ", TicketStatus::allPossibleStatuses()));
-        }
-        if ($status == null){
-            $status = TicketStatus::OPEN;
-        }
-
-        return $status;
+        $this->status = $status;
     }
 
     /**
-     * @throws TitleLengthExceeded
+     * @param $title
+     * @return void
      */
-    private function setTitle($title)
+    public function setTitle($title)
     {
-        if (strlen($title) > self::MAX_TITLE_LENGTH){
-            throw new TitleLengthExceeded();
-        }
         $this->title = $title;
     }
 
-
+    /**
+     * @return array
+     */
     public function jsonSerialize(): array
     {
         return [
@@ -167,6 +152,4 @@ class Ticket implements JsonSerializable
             'last_update' => $this->last_update
         ];
     }
-
-
 }

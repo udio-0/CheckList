@@ -13,7 +13,7 @@ class ViewSectionAction extends SectionAction
     {
         $sectionId = (int) $this->resolveArg('id');
 
-        $section = $this->sectionRepository->findSectionOfId($sectionId);
+        $section = $this->sectionRepository->findSectionById($sectionId);
 
         $id = $section->getId();
 

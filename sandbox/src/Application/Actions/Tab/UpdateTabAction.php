@@ -20,7 +20,7 @@ class UpdateTabAction extends TabAction
     {
         $tabId = (int) $this->resolveArg('id');
 
-        $tab = $this->tabRepository->findTabOfId($tabId);
+        $tab = $this->tabRepository->findTabById($tabId);
 
         $tab->updateInMemoryTab($this->getFormData());
 
@@ -30,7 +30,7 @@ class UpdateTabAction extends TabAction
             throw new InvalidTabTickedId();
         }
 
-        $updatedTab = $this->tabRepository->findTabOfId($tabId);
+        $updatedTab = $this->tabRepository->findTabById($tabId);
 
         $this->logger->info("Tab of id `${tabId}` was updated.");
 

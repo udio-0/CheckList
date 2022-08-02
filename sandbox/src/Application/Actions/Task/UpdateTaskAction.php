@@ -20,7 +20,7 @@ class UpdateTaskAction extends TaskAction
     {
         $taskId = (int) $this->resolveArg('id');
 
-        $task = $this->taskRepository->findTaskOfId($taskId);
+        $task = $this->taskRepository->findTaskById($taskId);
 
         $task->updateInMemoryTask($this->getFormData());
 
@@ -30,7 +30,7 @@ class UpdateTaskAction extends TaskAction
             throw new InvalidTaskSectionId();
         }
 
-        $updatedTask = $this->taskRepository->findTaskOfId($taskId);
+        $updatedTask = $this->taskRepository->findTaskById($taskId);
 
         $this->logger->info("Task of id `${taskId}` was updated.");
 

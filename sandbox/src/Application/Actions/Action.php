@@ -12,24 +12,52 @@ use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 
+
+/**
+ * @OA\Server (url="https://sandbox.exads.rocks")
+ * @OA\Info(
+ *     title="Checklist",
+ *     version="0.1"
+ * )
+ */
+
 abstract class Action
 {
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
+    /**
+     * @var Request
+     */
     protected $request;
 
+    /**
+     * @var Response
+     */
     protected $response;
 
+    /**
+     * @var array
+     */
     protected $args;
 
+    /**
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
     /**
-     * @throws HttpNotFoundException
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
      * @throws HttpBadRequestException
+     * @throws HttpNotFoundException
      */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
@@ -47,13 +75,12 @@ abstract class Action
     }
 
     /**
-     * @throws DomainRecordNotFoundException
-     * @throws HttpBadRequestException
+     * @return Response
      */
     abstract protected function action(): Response;
 
     /**
-     * @return array|object
+     * @return array|object|null
      */
     protected function getFormData()
     {
@@ -61,6 +88,7 @@ abstract class Action
     }
 
     /**
+     * @param string $name
      * @return mixed
      * @throws HttpBadRequestException
      */
@@ -74,7 +102,9 @@ abstract class Action
     }
 
     /**
-     * @param array|object|null $data
+     * @param $data
+     * @param int $statusCode
+     * @return Response
      */
     protected function respondWithData($data = null, int $statusCode = 200): Response
     {
@@ -83,6 +113,10 @@ abstract class Action
         return $this->respond($payload);
     }
 
+    /**
+     * @param ActionPayload $payload
+     * @return Response
+     */
     protected function respond(ActionPayload $payload): Response
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);

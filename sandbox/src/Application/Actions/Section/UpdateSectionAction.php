@@ -20,7 +20,7 @@ class UpdateSectionAction extends SectionAction
     {
         $sectionId = (int) $this->resolveArg('id');
 
-        $section = $this->sectionRepository->findSectionOfId($sectionId);
+        $section = $this->sectionRepository->findSectionById($sectionId);
 
         $section->updateInMemorySection($this->getFormData());
 
@@ -30,7 +30,7 @@ class UpdateSectionAction extends SectionAction
             throw new InvalidSectionTabId();
         }
 
-        $updatedSection = $this->sectionRepository->findSectionOfId($sectionId);
+        $updatedSection = $this->sectionRepository->findSectionById($sectionId);
 
         $this->logger->info("Section of id `${sectionId}` was updated.");
 

@@ -13,7 +13,7 @@ class ViewTaskAction extends TaskAction
     {
         $taskId = (int) $this->resolveArg('id');
 
-        $task = $this->taskRepository->findTaskOfId($taskId);
+        $task = $this->taskRepository->findTaskById($taskId);
 
         $id = $task->getId();
 

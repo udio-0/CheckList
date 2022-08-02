@@ -26,9 +26,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
+use Slim\Views\Twig;
+use Symfony\Component\Yaml\Yaml;
 
 require __DIR__ . '/../config/db.php';
-require __DIR__ . '/routes/queryHandler/queries.php';
 
 
 return function (App $app){
@@ -42,53 +43,53 @@ return function (App $app){
         return $response;
     });
 
-    $app->group('/tickets', function (Group $group) {
-        $group->get('', ListTicketAction::class);
-        $group->get('/{id}', ViewTicketAction::class);
-        $group->post('', CreateTicketAction::class);
-        $group->delete('/{id}', DeleteTicketAction::class);
-        $group->put('/{id}', UpdateTicketAction::class);
+    $app->group('/api', function (Group $group) {
+        $group->get('', function (Request $request, Response $response) {
+            $response->getBody()->write('Welcome to the JIRA Checklist API! Go to https://sandbox.exads.rocks/api/docs for more info.');
+            return $response;
+        });
+
+        $group->get('/docs', function ($request, $response, $args) {
+            $yamlFile = __DIR__ . '/../checklist.yaml';
+            return $this->get('view')->render($response, 'docs/swagger.twig', [
+                'spec' =>json_encode(Yaml::parseFile($yamlFile)),
+            ]);
+        });
+
+        $group->group('/tickets', function (Group $group) {
+            $group->get('', ListTicketAction::class);
+            $group->get('/{id}', ViewTicketAction::class);
+            $group->post('', CreateTicketAction::class);
+            $group->put('/{id}', UpdateTicketAction::class);
+            $group->delete('/{id}', DeleteTicketAction::class);
+        });
+
+        $group->group('/tabs', function (Group $group) {
+            $group->get('', ListTabAction::class);
+            $group->get('/{id}', ViewTabAction::class);
+            $group->post('', CreateTabAction::class);
+            $group->delete('/{id}', DeleteTabAction::class);
+            $group->put('/{id}', UpdateTabAction::class);
+        });
+
+        $group->group('/sections', function (Group $group) {
+            $group->get('', ListSectionAction::class);
+            $group->get('/{id}', ViewSectionAction::class);
+            $group->post('', CreateSectionAction::class);
+            $group->delete('/{id}', DeleteSectionAction::class);
+            $group->put('/{id}', UpdateSectionAction::class);
+        });
+
+        $group->group('/tasks', function (Group $group) {
+            $group->get('', ListTaskAction::class);
+            $group->get('/{id}', ViewTaskAction::class);
+            $group->post('', CreateTaskAction::class);
+            $group->delete('/{id}', DeleteTaskAction::class);
+            $group->put('/{id}', UpdateTaskAction::class);
+        });
+
+
     });
 
-    $app->group('/tabs', function (Group $group) {
-        $group->get('', ListTabAction::class);
-        $group->get('/{id}', ViewTabAction::class);
-        $group->post('', CreateTabAction::class);
-        $group->delete('/{id}', DeleteTabAction::class);
-        $group->put('/{id}', UpdateTabAction::class);
-    });
 
-    $app->group('/sections', function (Group $group) {
-        $group->get('', ListSectionAction::class);
-        $group->get('/{id}', ViewSectionAction::class);
-        $group->post('', CreateSectionAction::class);
-        $group->delete('/{id}', DeleteSectionAction::class);
-        $group->put('/{id}', UpdateSectionAction::class);
-    });
-
-    $app->group('/tasks', function (Group $group) {
-        $group->get('', ListTaskAction::class);
-        $group->get('/{id}', ViewTaskAction::class);
-        $group->post('', CreateTaskAction::class);
-        $group->delete('/{id}', DeleteTaskAction::class);
-        $group->put('/{id}', UpdateTaskAction::class);
-    });
-
-    /*$app->group('/tickets', function (Group $group) {
-        //Displays all tickets in json format
-        $group->get('', ListTicketAction::class);
-    });*/
-
-    /*//TODO Create routes for the api in separate files
-    $tickets = require __DIR__ . "/routes/tickets.php";
-    $tickets($app);
-
-    $tabs = require __DIR__ . "/routes/tabs.php";
-    $tabs($app);
-
-    $sessions = require __DIR__ . "/routes/sections.php";
-    $sessions($app);
-
-    $tasks = require  __DIR__ . "/routes/tasks.php";
-    $tasks($app);*/
 };

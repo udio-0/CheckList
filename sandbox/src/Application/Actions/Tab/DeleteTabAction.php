@@ -15,9 +15,9 @@ class DeleteTabAction extends TabAction
     {
         $tabId = (int) $this->resolveArg('id');
 
-        $tab = $this->tabRepository->findTabOfId($tabId);
+        $tab = $this->tabRepository->findTabById($tabId);
 
-        $tabDeleted = $this->tabRepository->deleteTabOfId($tab->getId());
+        $tabDeleted = $this->tabRepository->deleteTabById($tab->getId());
 
         $this->logger->info("Tab of id `${tabId}` was deleted.");
 

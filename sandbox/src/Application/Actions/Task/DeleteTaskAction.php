@@ -15,9 +15,9 @@ class DeleteTaskAction extends TaskAction
     {
         $taskId = (int) $this->resolveArg('id');
 
-        $task = $this->taskRepository->findTaskOfId($taskId);
+        $task = $this->taskRepository->findTaskById($taskId);
 
-        $taskDeleted = $this->taskRepository->deleteTaskOfId($task->getId());
+        $taskDeleted = $this->taskRepository->deleteTaskById($task->getId());
 
         $this->logger->info("Task of id `${taskId}` was deleted.");
 

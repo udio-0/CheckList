@@ -1,0 +1,155 @@
+openapi: 3.0.0
+info:
+  title: Checklist
+  version: '0.1'
+servers:
+  -
+    url: 'https://sandbox.exads.rocks'
+paths:
+  /api/tickets:
+    get:
+      summary: 'Get all tickets'
+      operationId: ListTickets
+      responses:
+        '200':
+          description: 'list tickets'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Ticket'
+    post:
+      summary: 'Create a new ticket'
+      operationId: createTicket
+      requestBody:
+        description: 'Ticket object'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  format: text
+                  example: Ticket
+                description:
+                  type: string
+                  format: text
+                  example: SomeText
+              type: object
+      responses:
+        '201':
+          description: 'Creation successful'
+        '400':
+          description: 'Invalid title'
+  '/api/tickets/{id}':
+    get:
+      summary: 'Get ticket by id'
+      operationId: getTicketById
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Ticket id.'
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: 'Get a single ticket.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '404':
+          description: 'Ticket not found.'
+    put:
+      summary: 'Update a ticket'
+      operationId: updateTicket
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Ticket id.'
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        description: 'Ticket object'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  format: text
+                  example: Ticket
+                description:
+                  type: string
+                  format: text
+                  example: SomeText
+                status:
+                  type: string
+                  format: text
+                  example: open
+              type: object
+      responses:
+        '200':
+          description: 'Update successful'
+        '400':
+          description: 'Invalid title'
+        '404':
+          description: 'Ticket not found.'
+    delete:
+      summary: 'Deletes ticket by Id'
+      operationId: deleteTicket
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Ticket id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: 'Ticket deleted'
+        '400':
+          description: 'Invalid ID supplied'
+        '404':
+          description: 'Ticket not found'
+        '401':
+          description: 'Ticket with tabs cannot be deleted. First Delete all its tabs'
+components:
+  schemas:
+    Ticket:
+      properties:
+        id:
+          description: 'Ticket id,'
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          nullable: true
+        date:
+          type: string
+          nullable: true
+        last_update:
+          type: string
+          nullable: true
+      type: object

@@ -15,9 +15,9 @@ class DeleteSectionAction extends SectionAction
     {
         $sectionId = (int) $this->resolveArg('id');
 
-        $section = $this->sectionRepository->findSectionOfId($sectionId);
+        $section = $this->sectionRepository->findSectionById($sectionId);
 
-        $sectionDeleted = $this->sectionRepository->deleteSectionOfId($section->getId());
+        $sectionDeleted = $this->sectionRepository->deleteSectionById($section->getId());
 
         $this->logger->info("Section of id `${sectionId}` was deleted.");
 
