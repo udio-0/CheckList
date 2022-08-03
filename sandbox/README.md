@@ -24,7 +24,7 @@ TICKETS:
     Delete Ticket: DELETE /api/tickets/{id}
 
 //TODO
-	TABS:
+		TABS:
 
 	    List Tabs: GET /api/tabs
 
@@ -34,11 +34,9 @@ TICKETS:
 
 	    Update Tab: PUT /api/tabs/{id}
 
-	    Update Tab Ticket: PATCH /api/tabs/ticket/{id}
-
 	    Delete Tab: DELETE /api/tabs/{id}
 
-	SECTIONS:
+		SECTIONS:
 
 	    List Sections: GET /api/sections
 
@@ -48,22 +46,18 @@ TICKETS:
 
 	    Update Section: PUT /api/sections/{id}
 
-	    Update Section Tab: PATCH /api/sections/tab/{id}
-
 	    Delete Section: DELETE /api/sections/{id}
 
-	ITEMS:
+		TASKS:
 
-	    List Items: GET /api/items
+	    List Tasks: GET /api/tasks
 
-	    Get Item: GET /api/items/{id}
+	    Get Tasks: GET /api/tasks/{id}
 
-	    Create Item: POST /api/items
+	    Create Tasks: POST /api/tasks
 
-	    Update Item: PUT /api/items/{id}
+	    Update Task: PUT /api/tasks/{id}
 
-	    Update Item Section: PATCH /api/items/section/{id}
-
-	    Delete Item: DELETE /api/items/{id}
+	    Delete Task: DELETE /api/tasks/{id}
 
 	
